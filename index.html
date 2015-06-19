@@ -41,6 +41,12 @@
 
 <p>A CLI is available for those who do not need direct access to the API.</p>
 
+<aside class="warning">
+Help keep your account secure &ndash; create a separate AMI user for use with Cronally and limit that user&rsquo;s privileges to publishing to a specific SNS topic.
+
+In addition, *always* use our https:// endpoint when making requests. While we&rsquo;ll automatically redirect non-HTTPS requests to HTTPS, any requests that include confidential data (like an AMI user&rsquo;s secret access key) are vulnerable unless you begin the URL with https://.
+</aside>
+
 <h1 id="authentication">Authentication</h1>
 
 <p>The Cronally API uses signed requests to authenticate for all actions except account creation. Please create an account before attempting to make other API calls.</p>
@@ -211,6 +217,10 @@ You must replace <code>[API KEY]</code>, <code>[DATE_TIME]</code>, and <code>[SI
 <h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">POST https://api.cronally.com/cronjob/</code></p>
+
+<aside class="warning">
+This request requires the secret access key for an IAM user. *always* use our https:// endpoint when making this request to avoid exposing that user&rsquo;s secret key!
+</aside>
 
 <h3 id="parameters">Parameters</h3>
 
