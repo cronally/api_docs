@@ -16,6 +16,12 @@ The Cronally API supports account creation and management of scheduled jobs via 
 
 A CLI is available for those who do not need direct access to the API.
 
+<aside class="warning">
+Help keep your account secure -- create a separate AMI user for use with Cronally and limit that user's privileges to publishing to a specific SNS topic.
+
+In addition, *always* use our https:// endpoint when making requests. While we'll automatically redirect non-HTTPS requests to HTTPS, any requests that include confidential data (like an AMI user's secret access key) are vulnerable unless you begin the URL with https://.
+</aside>
+
 # Authentication
 
 The Cronally API uses signed requests to authenticate for all actions except account creation. Please create an account before attempting to make other API calls.
@@ -133,6 +139,10 @@ This endpoint creates a new cron job
 ### HTTP Request
 
 `POST https://api.cronally.com/cronjob/`
+
+<aside class="warning">
+This request requires the secret access key for an IAM user. *always* use our https:// endpoint when making this request to avoid exposing that user's secret key!
+</aside>
 
 ### Parameters
 
