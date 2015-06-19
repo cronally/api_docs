@@ -73,8 +73,12 @@
 
 <p>Calculate an HMAC_256 of <code class="prettyprint">STRING_TO_SIGN</code> using the base64-decoded <code class="prettyprint">API_SECRET</code>:</p>
 
-<p><code class="prettyprint">hmac_256(base64_decode(API_SECRET), STRING_TO_SIGN)</code></p></li>
-<li><p>Add <code class="prettyprint">X-Cron-Signature</code> HTTP header to the request containing the HMAC</p></li>
+<p><code class="prettyprint">hmac_256(base64_decode(API_SECRET), STRING_TO_SIGN)</code></p>
+
+<p>Base64-encode the result to create the signature:</p>
+
+<p><code class="prettyprint">base64_encode(HMAC_256)</code></p></li>
+<li><p>Add <code class="prettyprint">X-Cron-Signature</code> HTTP header to the request containing the encoded HMAC</p></li>
 </ol>
 
 <aside class="notice">
