@@ -92,6 +92,8 @@ html, body {
   // This is the logo at the top of the ToC
   &>img {
     display: block;
+    margin: 0px auto;
+    margin-top:7px;
   }
 
   &>.search {
