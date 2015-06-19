@@ -50,7 +50,11 @@ Example: `200601021504`
 
     `hmac_256(base64_decode(API_SECRET), STRING_TO_SIGN)`
 
-3. Add `X-Cron-Signature` HTTP header to the request containing the HMAC
+    Base64-encode the result to create the signature:
+
+    `base64_encode(HMAC_256)`
+
+3. Add `X-Cron-Signature` HTTP header to the request containing the encoded HMAC
 
 <aside class="notice">
 You must replace <code>[API KEY]</code>, <code>[DATE_TIME]</code>, and <code>[SIGNATURE]</code> with your API Key, current date/time, and calculated HMAC signature, respectively.
