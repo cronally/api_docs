@@ -42,9 +42,9 @@
 <p>A CLI is available for those who do not need direct access to the API.</p>
 
 <aside class="warning">
-Help keep your account secure &ndash; create a separate AMI user for use with Cronally and limit that user&rsquo;s privileges to publishing to a specific SNS topic.
+Help keep your account secure &ndash; create a separate IAM user for use with Cronally and limit that user&rsquo;s privileges to publishing to a specific SNS topic.
 
-In addition, *always* use our https:// endpoint when making requests. While we&rsquo;ll automatically redirect non-HTTPS requests to HTTPS, any requests that include confidential data (like an AMI user&rsquo;s secret access key) are vulnerable unless you begin the URL with https://.
+In addition, *always* use our https:// endpoint when making requests. While we&rsquo;ll automatically redirect non-HTTPS requests to HTTPS, any requests that include confidential data (like an IAM user&rsquo;s secret access key) are vulnerable unless you begin the URL with https://.
 </aside>
 
 <h1 id="authentication">Authentication</h1>
@@ -169,6 +169,23 @@ You must replace <code>[API KEY]</code>, <code>[DATE_TIME]</code>, and <code>[SI
 </tbody></table>
 
 <h2 id="get-account-info">Get Account Info</h2>
+<pre class="highlight shell"><code>curl -X GET https://api.cronally.com/account/
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"34f10c9d-ca04-4faf-9e83-92eea9e58be8"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"username@example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59ab5a9c-ce44-4446-9501-76f4f64be3c6"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"h/Be+K0LvQxanvcabBL5Pjg3HL8g7CekNkG090he6rk="</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cronjob_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <p>This endpoint retrieves information for the account associated with the API key</p>
 
@@ -211,6 +228,31 @@ You must replace <code>[API KEY]</code>, <code>[DATE_TIME]</code>, and <code>[SI
 </tbody></table>
 
 <h2 id="add-cron-job">Add cron job</h2>
+<pre class="highlight shell"><code>curl -X POST <span class="se">\</span>
+-d <span class="s2">"name=cronjob"</span> <span class="se">\</span>
+-d <span class="s2">"cron=0 * * * *"</span> <span class="se">\ </span>
+-d <span class="s2">"sns_topic=arn:aws:sns:us-east-1:625900001012331:cron"</span> <span class="se">\ </span>
+-d <span class="s2">"sns_message=hello from cronally"</span> <span class="se">\ </span>
+-d <span class="s2">"sns_region=us-east-1"</span> <span class="se">\ </span>
+-d <span class="s2">"sns_access_key_id=AKIAIOBAKZ88ALIMQPKBC3Q"</span> <span class="se">\ </span>
+-d <span class="s2">"sns_secret_access_key=KdDja8..."</span> <span class="se">\ </span>
+https://api.cronally.com/cronjob/
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"34f10c9d-ca04-4faf-9e83-92eea9e58be8"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cronjob_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"37e545bd-fc2d-43e4-9b4a-e5eb4bc1f54e"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cronjob"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cron"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0 * * * *"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <p>This endpoint creates a new cron job</p>
 
@@ -303,6 +345,30 @@ This request requires the secret access key for an IAM user. *always* use our ht
 </tbody></table>
 
 <h2 id="list-cron-jobs">List cron jobs</h2>
+<pre class="highlight shell"><code>curl -X GET https://api.cronally.com/cronjobs/
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"34f10c9d-ca04-4faf-9e83-92eea9e58be8"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cronjob_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"37e545bd-fc2d-43e4-9b4a-e5eb4bc1f54e"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cronjob"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cron"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0 * * * *"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"da1c2aa1-ca04-4faf-9e83-92eea9e58be8"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cronjob_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fc2d54e3-fc2d-43e4-9b4a-e5eb4bc1f54e"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cronjob 2"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cron"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5 * * * *"</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <p>This endpoint lists all cron jobs for an account</p>
 
@@ -363,6 +429,23 @@ This request requires the secret access key for an IAM user. *always* use our ht
 </tbody></table>
 
 <h2 id="delete-cron-job">Delete cron job</h2>
+<pre class="highlight shell"><code>curl -X DELETE https://api.cronally.com/cronjob/&lt;cronjob_id&gt;/
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"34f10c9d-ca04-4faf-9e83-92eea9e58be8"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cronjob_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"37e545bd-fc2d-43e4-9b4a-e5eb4bc1f54e"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cronjob"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cron"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0 * * * *"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <p>This endpoint deletes a cron job</p>
 
