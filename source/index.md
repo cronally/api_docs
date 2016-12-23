@@ -17,9 +17,9 @@ The Cronally API supports account creation and management of scheduled jobs via 
 A CLI is available for those who do not need direct access to the API.
 
 <aside class="warning">
-Help keep your account secure -- create a separate AMI user for use with Cronally and limit that user's privileges to publishing to a specific SNS topic.
+Help keep your account secure -- create a separate IAM user for use with Cronally and limit that user's privileges to publishing to a specific SNS topic.
 
-In addition, *always* use our https:// endpoint when making requests. While we'll automatically redirect non-HTTPS requests to HTTPS, any requests that include confidential data (like an AMI user's secret access key) are vulnerable unless you begin the URL with https://.
+In addition, *always* use our https:// endpoint when making requests. While we'll automatically redirect non-HTTPS requests to HTTPS, any requests that include confidential data (like an IAM user's secret access key) are vulnerable unless you begin the URL with https://.
 </aside>
 
 # Authentication
@@ -115,6 +115,25 @@ Cronjob Count | Total number of cron jobs associated with account
 
 ## Get Account Info
 
+```shell
+curl -X GET https://api.cronally.com/account/
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status": "success",
+  "response": {
+    "account_id": "34f10c9d-ca04-4faf-9e83-92eea9e58be8",
+    "email": "username@example.com",
+    "api_key": "59ab5a9c-ce44-4446-9501-76f4f64be3c6",
+    "api_secret": "h/Be+K0LvQxanvcabBL5Pjg3HL8g7CekNkG090he6rk=",
+    "cronjob_count": 0
+  }
+}
+```
+
 This endpoint retrieves information for the account associated with the API key
 
 ### HTTP Request
@@ -133,6 +152,33 @@ API Secret | Secret used to calculate signature for API requests
 Cronjob Count | Total number of cron jobs associated with account
 
 ## Add cron job
+
+```shell
+curl -X POST \
+-d "name=cronjob" \
+-d "cron=0 * * * *" \ 
+-d "sns_topic=arn:aws:sns:us-east-1:625900001012331:cron" \ 
+-d "sns_message=hello from cronally" \ 
+-d "sns_region=us-east-1" \ 
+-d "sns_access_key_id=AKIAIOBAKZ88ALIMQPKBC3Q" \ 
+-d "sns_secret_access_key=KdDja8..." \ 
+https://api.cronally.com/cronjob/
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status": "success",
+  "response": {
+    "account_id": "34f10c9d-ca04-4faf-9e83-92eea9e58be8",
+    "cronjob_id": "37e545bd-fc2d-43e4-9b4a-e5eb4bc1f54e",
+    "deleted": false,
+    "name": "cronjob",
+    "cron": "0 * * * *"
+  }
+}
+```
 
 This endpoint creates a new cron job
 
@@ -169,6 +215,32 @@ Deleted | Deleted status
 
 ## List cron jobs
 
+```shell
+curl -X GET https://api.cronally.com/cronjobs/
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status": "success",
+  "response": [{
+    "account_id": "34f10c9d-ca04-4faf-9e83-92eea9e58be8",
+    "cronjob_id": "37e545bd-fc2d-43e4-9b4a-e5eb4bc1f54e",
+    "deleted": false,
+    "name": "cronjob",
+    "cron": "0 * * * *"
+  },
+  {
+    "account_id": "da1c2aa1-ca04-4faf-9e83-92eea9e58be8",
+    "cronjob_id": "fc2d54e3-fc2d-43e4-9b4a-e5eb4bc1f54e",
+    "deleted": false,
+    "name": "cronjob 2",
+    "cron": "5 * * * *"
+  }]
+}
+```
+
 This endpoint lists all cron jobs for an account
 
 ### HTTP Request
@@ -194,6 +266,25 @@ Account ID | Account ID of newly created cron job
 Deleted | Deleted status
 
 ## Delete cron job
+
+```shell
+curl -X DELETE https://api.cronally.com/cronjob/<cronjob_id>/
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status": "success",
+  "response": {
+    "account_id": "34f10c9d-ca04-4faf-9e83-92eea9e58be8",
+    "cronjob_id": "37e545bd-fc2d-43e4-9b4a-e5eb4bc1f54e",
+    "deleted": true,
+    "name": "cronjob",
+    "cron": "0 * * * *"
+  }
+}
+```
 
 This endpoint deletes a cron job
 
