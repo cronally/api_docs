@@ -286,28 +286,43 @@ This request requires the secret access key for an IAM user. *always* use our ht
 <td>When to run the cron job in cron format (ex: <code class="prettyprint">0 8 * * *</code>)</td>
 </tr>
 <tr>
+<td>delivery_type</td>
+<td>false</td>
+<td>Set to <code class="prettyprint">http</code> for HTTP delivery or <code class="prettyprint">sns</code> (default) for SNS delivery</td>
+</tr>
+<tr>
+<td>delivery_http_method</td>
+<td>conditional</td>
+<td>When <code class="prettyprint">delivery_type</code> is <code class="prettyprint">http</code>, set the HTTP method to <code class="prettyprint">get</code> or <code class="prettyprint">post</code></td>
+</tr>
+<tr>
+<td>delivery_http_url</td>
+<td>conditional</td>
+<td>When <code class="prettyprint">delivery_type</code> is <code class="prettyprint">http</code>, set the request URL</td>
+</tr>
+<tr>
 <td>sns_topic</td>
-<td>true</td>
+<td>conditional</td>
 <td>AWS SNS topic to associate with cron job</td>
 </tr>
 <tr>
 <td>sns_message</td>
-<td>true</td>
+<td>conditional</td>
 <td>Message to publish on SNS topic (if not needed, provide any string value)</td>
 </tr>
 <tr>
 <td>sns_region</td>
-<td>true</td>
+<td>conditional</td>
 <td>AWS region for SNS endpoint (ex: <code class="prettyprint">us-east-1</code>)</td>
 </tr>
 <tr>
 <td>sns_access_key_id</td>
-<td>true</td>
+<td>conditional</td>
 <td>AWS IAM access key ID with appropriate permissions to publish on SNS topic</td>
 </tr>
 <tr>
 <td>sns_secret_access_key</td>
-<td>true</td>
+<td>conditional</td>
 <td>AWS IAM secret access key associated with IAM user</td>
 </tr>
 </tbody></table>
