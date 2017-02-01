@@ -198,11 +198,14 @@ Parameter | Required | Description
 --------- | ------- | -----------
 name | true | Name of the cron job to create.
 cron | true | When to run the cron job in cron format (ex: `0 8 * * *`)
-sns_topic | true | AWS SNS topic to associate with cron job
-sns_message | true | Message to publish on SNS topic (if not needed, provide any string value)
-sns_region | true | AWS region for SNS endpoint (ex: `us-east-1`)
-sns_access_key_id | true | AWS IAM access key ID with appropriate permissions to publish on SNS topic
-sns_secret_access_key | true | AWS IAM secret access key associated with IAM user
+delivery_type | false | Set to `http` for HTTP delivery or `sns` (default) for SNS delivery
+delivery_http_method | conditional | When `delivery_type` is `http`, set the HTTP method to `get` or `post`
+delivery_http_url | conditional | When `delivery_type` is `http`, set the request URL
+sns_topic | conditional | AWS SNS topic to associate with cron job
+sns_message | conditional | Message to publish on SNS topic (if not needed, provide any string value)
+sns_region | conditional | AWS region for SNS endpoint (ex: `us-east-1`)
+sns_access_key_id | conditional | AWS IAM access key ID with appropriate permissions to publish on SNS topic
+sns_secret_access_key | conditional | AWS IAM secret access key associated with IAM user
 
 ### HTTP Response
 
