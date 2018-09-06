@@ -361,6 +361,89 @@ This request requires the secret access key for an IAM user. *always* use our ht
 </tr>
 </tbody></table>
 
+<h2 id="update-cron-job">Update cron job</h2>
+<pre class="highlight shell"><code>curl -X PATCH <span class="se">\</span>
+-d <span class="s2">"name=updated cronjob name"</span> <span class="se">\</span>
+-d <span class="s2">"cron=10 5 * * *"</span> <span class="se">\ </span>
+https://api.cronally.com/cronjob/37e545bd-fc2d-43e4-9b4a-e5eb4bc1f54e
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"34f10c9d-ca04-4faf-9e83-92eea9e58be8"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cronjob_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"37e545bd-fc2d-43e4-9b4a-e5eb4bc1f54e"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"updated cronjob name"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cron"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10 5 * * *"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint updates an existing cron job&rsquo;s name or cron expression.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">PATCH https://api.cronally.com/cronjob/&lt;cronjob_id&gt;</code></p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>false</td>
+<td>Name of the cron job to create.</td>
+</tr>
+<tr>
+<td>cron</td>
+<td>false</td>
+<td>When to run the cron job in cron format (ex: <code class="prettyprint">0 8 * * *</code>)</td>
+</tr>
+</tbody></table>
+
+<h3 id="http-response">HTTP Response</h3>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Status</td>
+<td>Success or error</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Name of the cron job</td>
+</tr>
+<tr>
+<td>Cron</td>
+<td>Cron-formatted string</td>
+</tr>
+<tr>
+<td>Cronjob ID</td>
+<td>ID of the newly created cron job</td>
+</tr>
+<tr>
+<td>Account ID</td>
+<td>Account ID of newly created cron job</td>
+</tr>
+<tr>
+<td>Deleted</td>
+<td>Deleted status</td>
+</tr>
+</tbody></table>
+
 <h2 id="list-cron-jobs">List cron jobs</h2>
 <pre class="highlight shell"><code>curl -X GET https://api.cronally.com/cronjobs/
 </code></pre>
