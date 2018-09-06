@@ -218,6 +218,70 @@ Cronjob ID | ID of the newly created cron job
 Account ID | Account ID of newly created cron job
 Deleted | Deleted status
 
+
+
+
+
+
+
+
+## Update cron job
+
+```shell
+curl -X PATCH \
+-d "name=updated cronjob name" \
+-d "cron=10 5 * * *" \ 
+https://api.cronally.com/cronjob/37e545bd-fc2d-43e4-9b4a-e5eb4bc1f54e
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status": "success",
+  "response": {
+    "account_id": "34f10c9d-ca04-4faf-9e83-92eea9e58be8",
+    "cronjob_id": "37e545bd-fc2d-43e4-9b4a-e5eb4bc1f54e",
+    "deleted": false,
+    "name": "updated cronjob name",
+    "cron": "10 5 * * *"
+  }
+}
+```
+
+This endpoint updates an existing cron job's name or cron expression.
+
+### HTTP Request
+
+`PATCH https://api.cronally.com/cronjob/<cronjob_id>`
+
+### Parameters
+
+Parameter | Required | Description
+--------- | ------- | -----------
+name | false | Name of the cron job to create.
+cron | false | When to run the cron job in cron format (ex: `0 8 * * *`)
+
+### HTTP Response
+
+Key | Description
+--------- | ------- 
+Status | Success or error
+Name | Name of the cron job
+Cron | Cron-formatted string
+Cronjob ID | ID of the newly created cron job
+Account ID | Account ID of newly created cron job
+Deleted | Deleted status
+
+
+
+
+
+
+
+
+
+
 ## List cron jobs
 
 ```shell
